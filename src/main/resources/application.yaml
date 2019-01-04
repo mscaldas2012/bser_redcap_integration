@@ -1,0 +1,7 @@
+spring:
+
+
+redcap:
+  api:
+    token: 5C0B853CFE636538BD5C839C2C6DBE3E
+    url: https://redcap-azure-stage.ymca.net/api/
