@@ -21,9 +21,18 @@ public class RedCapProxyTest {
 
     @Test
     public void doPost() {
-        RedCapProxy proxy = new RedCapProxy("https://redcap-azure-stage.ymca.net/api/", "5C0B853CFE636538BD5C839C2C6DBE3E");
+        RedCapProxy proxy = new RedCapProxy("https://redcap-azure-stage.ymca.net/api/", "1B0C7E1F7B2F4E2F7245E500D98D04E3");
 
-        RequestReferalInstrument ref = new RequestReferalInstrument("7", "Gandalf", "The Gray", "99");
+        RequestReferalInstrument ref = new RequestReferalInstrument();
+        ref.setRecordId("1");
+        ref.setReferralOrganizationName("CDC");
+        ref.setReferralOrganizationType("Public health");
+        ref.setReferralPractitionerName("Marcelo Caldas");
+        ref.setPatientName("John Doe");
+        ref.setPatientAge("27");
+        ref.setPatientMRNumber("123456");
+        ref.setPatientWeight("167");
+        ref.setPatientHeight("5.4");
         proxy.doPost(ref);
     }
 }

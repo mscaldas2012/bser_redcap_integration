@@ -12,13 +12,32 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class RequestReferalInstrument {
     @SerializedName("record_id")
     private String recordId;
-    private String firstname;
-    private String lastname;
-    private String age;
+    @SerializedName("referral_organization_name")
+    private String referralOrganizationName;
+    @SerializedName("referral_organization_type")
+    private String referralOrganizationType;
+    @SerializedName("referral_practitioner_name")
+    private String referralPractitionerName;
+    @SerializedName("referral_practitioner_phone")
+    private String referralPractitionerPhone;
+    @SerializedName("patient_mr_number")
+    private String patientMRNumber;
+    @SerializedName("patient_name")
+    private String patientName;
+    @SerializedName("patient_age")
+    private String patientAge;
+    @SerializedName("patient_phone")
+    private String patientPhone;
+    @SerializedName("patient_height")
+    private String patientHeight;
+    @SerializedName("patient_weight")
+    private String patientWeight;
+    @SerializedName("patient_a1cobservation")
+    private String patientA1CObservation;
+
 
 
 }
