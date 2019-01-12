@@ -1,5 +1,7 @@
-spring:
-
+server:
+  servlet:
+    context-path: /bser
+  port: 11001
 
 redcap:
   api:
