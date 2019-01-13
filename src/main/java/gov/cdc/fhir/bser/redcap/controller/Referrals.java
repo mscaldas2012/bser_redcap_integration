@@ -13,10 +13,17 @@ public class Referrals {
         return "ok";
     }
 
-    @PostMapping("Encounter/{encounterID}")
+    @PutMapping("Encounter/{encounterID}")
     public String receiveReferral(@PathVariable String encounterID, @RequestBody String body) {
         System.out.println("encounterID = " + encounterID);
         System.out.println("body = " + body);
         return "encounter OK";
+    }
+
+    @PostMapping("$process-message")
+    public String receiveReferralMessage(@RequestBody String body) {
+        System.out.println("Processing referral mressage");
+        System.out.println("body = " + body);
+        return ("Message OK!");
     }
 }
