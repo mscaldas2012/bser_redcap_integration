@@ -13,7 +13,7 @@ public class Referrals {
         return "ok";
     }
 
-    @PostMapping("Encounter/{encID}")
+    @PostMapping("Encounter/{encounterID}")
     public String receiveReferral(@PathVariable String encounterID, @RequestBody String body) {
         System.out.println("encounterID = " + encounterID);
         System.out.println("body = " + body);
