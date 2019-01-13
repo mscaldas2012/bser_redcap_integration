@@ -8,9 +8,15 @@ import org.springframework.web.bind.annotation.*;
 public class Referrals {
 
     @PostMapping
-    public String receiveNewReferral(@RequestParam(required= false) String queryparam, @RequestBody String body) {
-        System.out.println("param: " + queryparam);
+    public String receiveNewReferral(@RequestBody String body) {
         System.out.println("body = " + body);
         return "ok";
+    }
+
+    @PostMapping("Encounter/{encID}")
+    public String receiveReferral(@PathVariable String encounterID, @RequestBody String body) {
+        System.out.println("encounterID = " + encounterID);
+        System.out.println("body = " + body);
+        return "encounter OK";
     }
 }
