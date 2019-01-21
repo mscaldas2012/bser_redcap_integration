@@ -25,6 +25,7 @@ public class Referrals {
 
     @PutMapping("Bundle/{bundleId}")
     public String receiveReferral(@PathVariable String bundleId, @RequestBody(required=false) String body) {
+        System.out.println("body = \n\n" + body + "\n\n");
         Bundle b = getBundle(body);
         if (b!=null) {
             RequestReferalInstrument redCapInstrument = fhirProxy.processReferral(b);
