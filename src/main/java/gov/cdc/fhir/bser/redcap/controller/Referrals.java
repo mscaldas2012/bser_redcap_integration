@@ -2,6 +2,7 @@ package gov.cdc.fhir.bser.redcap.controller;
 
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.IParser;
 import gov.cdc.fhir.bser.redcap.model.RequestReferalInstrument;
 import gov.cdc.fhir.bser.redcap.service.FHIRProxy;
 import gov.cdc.fhir.bser.redcap.service.RedCapProxy;
@@ -24,14 +25,30 @@ public class Referrals {
 
     @PutMapping("Bundle/{bundleId}")
     public String receiveReferral(@PathVariable String bundleId, @RequestBody(required=false) String body) {
-        FhirContext ctx = FhirContext.forDstu3();
-        Bundle b = (Bundle) ctx.newJsonParser().parseResource(body);
-        RequestReferalInstrument redCapInstrument = fhirProxy.processReferral(b);
-        redCapProxy.saveReferral(redCapInstrument);
-        return "Bundle OK";
+        Bundle b = getBundle(body);
+        if (b!=null) {
+            RequestReferalInstrument redCapInstrument = fhirProxy.processReferral(b);
+            redCapProxy.saveReferral(redCapInstrument);
+            return "Bundle OK";
+        } else {
+            return "Empty Payload";
+        }
     }
 
-
+    //This method parsers either XML or JSON content:
+    private Bundle getBundle(String body) {
+        FhirContext ctx = FhirContext.forDstu3();
+        IParser parser;
+        if (body != null && body.trim().length() >0 ) {
+            if (body.startsWith("<")) {
+                parser = ctx.newXmlParser();
+            } else {
+                parser = ctx.newJsonParser();
+            }
+            return (Bundle) parser.parseResource(body);
+        }
+        return null;
+    }
 
 
 
