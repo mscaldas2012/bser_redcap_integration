@@ -33,6 +33,6 @@ public class RedCapProxyTest {
         ref.setPatientMRNumber("123456");
         ref.setPatientWeight("167");
         ref.setPatientHeight("5.4");
-        proxy.doPost(ref);
+        proxy.saveReferral(ref);
     }
 }

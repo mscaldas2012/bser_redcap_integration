@@ -56,7 +56,7 @@ public class RedCapProxy {
         line = null;
     }
 
-    public void doPost(RequestReferalInstrument newRecord) {
+    public void saveReferral(RequestReferalInstrument newRecord) {
         HttpResponse resp = null;
         Gson gson = new Gson();
 
