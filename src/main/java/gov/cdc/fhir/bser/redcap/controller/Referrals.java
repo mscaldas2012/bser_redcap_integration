@@ -25,7 +25,7 @@ public class Referrals {
     @PutMapping("Bundle/{bundleId}")
     public String receiveReferral(@PathVariable String bundleId, @RequestBody(required=false) String body) {
         FhirContext ctx = FhirContext.forDstu3();
-        Bundle b = (Bundle) ctx.newXmlParser().parseResource(body);
+        Bundle b = (Bundle) ctx.newJsonParser().parseResource(body);
         RequestReferalInstrument redCapInstrument = fhirProxy.processReferral(b);
         redCapProxy.saveReferral(redCapInstrument);
         return "Bundle OK";
