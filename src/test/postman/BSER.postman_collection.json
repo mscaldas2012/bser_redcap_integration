@@ -1,0 +1,403 @@
+{
+	"info": {
+		"_postman_id": "b155e300-f301-4a75-87db-39b05b2b877f",
+		"name": "BSER",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BSER Redcab Service",
+			"item": [
+				{
+					"name": "FHIR Subscription Endpoint",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "hello there"
+						},
+						"url": {
+							"raw": "http://eip-fhir.experimental.aimsplatform.com/bser/referral/Encounter/123",
+							"protocol": "http",
+							"host": [
+								"eip-fhir",
+								"experimental",
+								"aimsplatform",
+								"com"
+							],
+							"path": [
+								"bser",
+								"referral",
+								"Encounter",
+								"123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FHIR Subscription Endpoint Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:11001/bser/referral/$process-message",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11001",
+							"path": [
+								"bser",
+								"referral",
+								"$process-message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Process Bundle",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<Bundle xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n    xsi:schemaLocation=\"http://hl7.org/fhir ../../../../git/FHIRTransforms/schemas/FHIR/STU3/bundle.xsd\"\n    xmlns=\"http://hl7.org/fhir\">\n    <!--DiabetesPreventionReferralRequestMessageBundle-->\n    <id value=\"45\"/>\n    <meta>\n        <versionId value=\"3\"/>\n        <lastUpdated value=\"2019-01-12T17:49:02.000+00:00\"/>\n        <profile\n            value=\"http://hl7.org/fhir/us/bser/StructureDefinition/DiabetesPreventionReferralRequestMessageBundle\"\n        />\n    </meta>\n    <type value=\"message\"/>\n    <entry>\n        <fullUrl value=\"urn:uuid:fc5857a1-98cb-4d3d-b6a0-fa0c18b3057d\"/>\n        <resource>\n            <MessageHeader xmlns=\"http://hl7.org/fhir\">\n                <!--MessageHeaderInitiator-->\n                <id value=\"fc5857a1-98cb-4d3d-b6a0-fa0c18b3057d\"/>\n                <event>\n                    <system value=\"https://www.hl7.org/fhir/valueset-message-events.html\"/>\n                    <code value=\"referral-req\"/>\n                    <display value=\"Referral Request\"/>\n                </event>\n                <receiver>\n                    <!--PractitionerRole/ReferralRecipient goes directluy tp Practioner-->\n\n                    <extension url=\"http://expample.org/practitioner-role\">\n                        <valueReference>\n                            <reference value=\"urn:uuid:ffa2bf53-ee09-43a1-b11a-73ed0f1cd73b\"\n                            />\n                        </valueReference>\n                    </extension>\n                    <reference value=\"urn:uuid:421269ad-abef-49bc-8cac-d3a5d4b00299\"/>\n                </receiver>\n                <sender>\n                    <!--PractitionerRole/ReferralInitiator-->\n                    <extension url=\"http://expample.org/practitioner-role\">\n                        <valueReference>\n                            <reference value=\"urn:uuid:538791da-3555-460e-9e7f-76d25988a546\"\n                            />\n                        </valueReference>\n                    </extension>\n                    <reference value=\"urn:uuid:598af951-66e4-4910-a964-7e41533b183c\"/>\n                </sender>\n                <timestamp value=\"2018-12-11T05:05:11Z\"/>\n                <source>\n                    <name value=\"Centricity\"/>\n                    <endpoint value=\"https://apisandbox.gehealthcare.com:9443/demoAPIServer\"/>\n                </source>\n                <reason>\n                    <coding>\n                        <system\n                            value=\"https://www.hl7.org/fhir/valueset-message-reason-encounter.html\"/>\n                        <code value=\"class-enroll\"/>\n                        <display value=\"Enroll in Class\"/>\n                    </coding>\n                </reason>\n                <focus>\n                    <!-- ReferralRequest1 -->\n                    <reference value=\"urn:uuid:1b82e7bd-27bb-49bd-a404-0e5a7d2fa98c\"/>\n                </focus>\n            </MessageHeader>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:1b82e7bd-27bb-49bd-a404-0e5a7d2fa98c\"/>\n        <resource>\n            <ReferralRequest xmlns=\"http://hl7.org/fhir\">\n                <!-- ReferralRequest1 -->\n                <id value=\"1b82e7bd-27bb-49bd-a404-0e5a7d2fa98c\"/>\n                <meta>\n                    <profile\n                        value=\"http://hl7.org/fhir/us/bser/StructureDefinition/BSeRReferralRequest\"\n                    />\n                </meta>\n                <identifier>\n                    \n                    <value value=\"71949668\"/>\n                </identifier>\n                <status value=\"active\"/>\n                <intent value=\"order\"/>\n                <serviceRequested>\n                    <coding>\n                        <system value=\"http://snomed.info/sct\"/>\n                        <code value=\"385804009\"/>\n                        <display value=\"Diabetes care\"/>\n                    </coding>\n                </serviceRequested>\n                <subject>\n                    <reference value=\"urn:uuid:cec258d7-a76a-4a1d-bc4c-c656b0a5d6f8\"/>\n                </subject>\n                <authoredOn value=\"2018-12-11\"/>\n                <requester>\n                    <agent>\n                       <extension url=\"http://expample.org/practitioner-role\">\n                            <valueReference>\n                                <reference\n                                    value=\"urn:uuid:538791da-3555-460e-9e7f-76d25988a546\"/>\n                            </valueReference>\n                        </extension>\n                        <reference value=\"urn:uuid:598af951-66e4-4910-a964-7e41533b183c\"/>\n                    </agent>\n                </requester>\n                <recipient>\n                     <extension url=\"http://expample.org/practitioner-role\">\n                        <valueReference>\n                            <reference value=\"urn:uuid:ffa2bf53-ee09-43a1-b11a-73ed0f1cd73b\"\n                            />\n                        </valueReference>\n                    </extension>\n                    <reference value=\"urn:uuid:421269ad-abef-49bc-8cac-d3a5d4b00299\"/>\n                </recipient>\n                <reasonCode>\n                    <coding>\n                        <system value=\"http://snomed.info/sct\"/>\n                        <code value=\"15777000\"/>\n                        <display value=\"Prediabetes\"/>\n                    </coding>\n                </reasonCode>\n                <supportingInfo>\n                    <!-- ReferralRequestSupportingBundle -->\n                    <reference value=\"urn:uuid:0bdbb1e5-5016-4291-8249-d16d8d07181f\"/>\n                </supportingInfo>\n                <supportingInfo>\n                    <!-- ReferralRequestSupportingBundle -->\n                    <reference value=\"urn:uuid:29be9d88-0027-4f02-9b2c-f7a27aaaf10b\"/>\n                </supportingInfo>\n                <supportingInfo>\n                    <!-- ReferralRequestSupportingBundle -->\n                    <reference value=\"urn:uuid:22449d51-3d71-49bd-a79a-c1f7557e09ef\"/>\n                </supportingInfo>\n            </ReferralRequest>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:ffa2bf53-ee09-43a1-b11a-73ed0f1cd73b\"/>\n        <resource>\n            <PractitionerRole xmlns=\"http://hl7.org/fhir\">\n                <!--ReferralRecipient-->\n                <id value=\"ffa2bf53-ee09-43a1-b11a-73ed0f1cd73b\"/>\n                <practitioner>\n                    <!-- Practitioner2 -->\n                    <reference value=\"urn:uuid:421269ad-abef-49bc-8cac-d3a5d4b00299\"/>\n                </practitioner>\n                <organization>\n                    <reference value=\"urn:uuid:f5db0002-3a69-472b-9263-be8d977fdaff\"/>\n                </organization>\n                <code>\n                    <coding>\n                        <system value=\"http://hl7.org/fhir/practitioner-role\"/>\n                        <code value=\"doctor\"/>\n                        <display value=\"Doctor\"/>\n                    </coding>\n                </code>\n                <location>\n                    <reference value=\"urn:uuid:17d9e3c9-a6a8-4550-b4db-d6f5a453d983\"/>\n                </location>\n            </PractitionerRole>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:538791da-3555-460e-9e7f-76d25988a546\"/>\n        <resource>\n            <PractitionerRole xmlns=\"http://hl7.org/fhir\">\n                <!-- ReferralInitiator -->\n                <id value=\"538791da-3555-460e-9e7f-76d25988a546\"/>\n                <meta>\n                    <profile\n                        value=\"http://hl7.org/fhir/us/bser/StructureDefinition/ReferralInitiatorPractitionerRole\"\n                    />\n                </meta>\n                <practitioner>\n                    <reference value=\"urn:uuid:598af951-66e4-4910-a964-7e41533b183c\"/>\n                </practitioner>\n                <organization>\n                    <reference value=\"urn:uuid:e6d1abc8-595f-41ab-a6dc-13a034d3fac7\"/>\n                </organization>\n                <code>\n                    <coding>\n                        <system value=\"http://hl7.org/fhir/practitioner-role\"/>\n                        <code value=\"doctor\"/>\n                        <display value=\"Doctor\"/>\n                    </coding>\n                </code>\n                <location>\n                    <!-- urn:uuid:ServiceDeliveryLocationInitiator-->\n                    <reference value=\"urn:uuid:25fa3dbc-dc9e-42c2-b681-0352765645af\"/>\n                </location>\n            </PractitionerRole>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:421269ad-abef-49bc-8cac-d3a5d4b00299\"/>\n        <resource>\n            <Practitioner xmlns=\"http://hl7.org/fhir\">\n                <!-- Practitioner2 -->\n                <id value=\"421269ad-abef-49bc-8cac-d3a5d4b00299\"/>\n                <meta>\n                    <profile\n                        value=\"http://hl7.org/fhir/us/bser/StructureDefinition/PractitionerPerson\"/>\n                </meta>\n                <identifier>\n                    <system value=\"urn:oid:2.16.840.1.113883.4.6\"/>\n                    <value value=\"1972548287\"/>\n                </identifier>\n                <name>\n                    <family value=\"Liyanage\"/>\n                    <given value=\"Udaya\"/>\n                    <prefix value=\"Dr.\"/>\n                </name>\n                <telecom>\n                    <system value=\"phone\"/>\n                    <value value=\"(618) 942-2002\"/>\n                    <use value=\"work\"/>\n                </telecom>\n                <address>\n                    <line value=\"220 S PARK AVE \"/>\n                    <city value=\"HERRIN\"/>\n                    <state value=\"IL\"/>\n                    <postalCode value=\"62948\"/>\n                </address>\n            </Practitioner>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:25fa3dbc-dc9e-42c2-b681-0352765645af\"/>\n        <resource>\n            <Location xmlns=\"http://hl7.org/fhir\">\n                <!-- ServiceDeliveryLocationInitiator -->\n                <id value=\"25fa3dbc-dc9e-42c2-b681-0352765645af\"/>\n                <meta>\n                    <profile\n                        value=\"http://hl7.org/fhir/us/bser/StructureDefinition/ServiceDeliveryLocation\"\n                    />\n                </meta>\n                <identifier>\n                    <system value=\"urn:oid:2.16.840.1.113883.4.6\"/>\n                    <value value=\"1659603009\"/>\n                </identifier>\n                <name value=\"Alliance Of Chicago Therapeutic Services and Supplies\"/>\n                <type>\n                    <coding>\n                        <system value=\"http://hl7.org/CodeSystem/organization-type\"/>\n                        <code value=\"prov\"/>\n                        <display value=\"Healthcare Provider\"/>\n                    </coding>\n\n                </type>\n                <telecom>\n                    <system value=\"phone\"/>\n                    <value value=\"(909) 427-5000\"/>\n                    <use value=\"work\"/>\n                </telecom>\n                <address>\n                    <use value=\"work\"/>\n                    <line value=\"2800 W PETERSON AVE\"/>\n                    <city value=\"Chicago\"/>\n                    <state value=\"IL\"/>\n                    <postalCode value=\"60659\"/>\n                    <country value=\"USA\"/>\n                </address>\n            </Location>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:17d9e3c9-a6a8-4550-b4db-d6f5a453d983\"/>\n        <resource>\n            <Location xmlns=\"http://hl7.org/fhir\">\n                <!-- ServiceDeliveryLocationRecipient-->\n                <id value=\"17d9e3c9-a6a8-4550-b4db-d6f5a453d983\"/>\n                <meta>\n                    <profile\n                        value=\"http://hl7.org/fhir/us/bser/StructureDefinition/ServiceDeliveryLocation\"\n                    />\n                </meta>\n                <identifier>\n                    <system value=\"urn:oid:2.16.840.1.113883.4.6\"/>\n                    <value value=\"1215372123\"/>\n                </identifier>\n                <name value=\"YMCA of Metropolitan Chicago\"/>\n                <type>\n                    <coding>\n                        <system value=\"http://hl7.org/CodeSystem/organization-type\"/>\n                        <code value=\"prov\"/>\n                        <display value=\"Healthcare Provider\"/>\n                    </coding>\n\n                </type>\n                <telecom>\n                    <system value=\"phone\"/>\n                    <value value=\"(909) 427-5000\"/>\n                    <use value=\"work\"/>\n                </telecom>\n                <address>\n                    <use value=\"work\"/>\n                    <line value=\"1030 W Van Buren St\"/>\n                    <city value=\"Chicago\"/>\n                    <state value=\"IL\"/>\n                    <postalCode value=\"60607\"/>\n                    <country value=\"USA\"/>\n                </address>\n            </Location>\n        </resource>\n    </entry>\n\n    <entry>\n        <fullUrl value=\"urn:uuid:598af951-66e4-4910-a964-7e41533b183c\"/>\n        <resource>\n            <Practitioner xmlns=\"http://hl7.org/fhir\">\n                <!-- Practitioner1 -->\n                <id value=\"598af951-66e4-4910-a964-7e41533b183c\"/>\n                <meta>\n                    <profile\n                        value=\"http://hl7.org/fhir/us/bser/StructureDefinition/PractitionerPerson\"/>\n                </meta>\n                <identifier>\n                    <system value=\"urn:oid:2.16.840.1.113883.4.6\"/>\n                    <value value=\"1063784882\"/>\n                </identifier>\n                <name>\n                    <family value=\"Heard\"/>\n                    <given value=\"Elisa\"/>\n                    <prefix value=\"Dr.\"/>\n                </name>\n                <telecom>\n                    <system value=\"phone\"/>\n                    <value value=\"(847) 548-6000\"/>\n                    <use value=\"work\"/>\n                </telecom>\n                <address>\n                    <line value=\"18640 West Belvidere Road\"/>\n                    <city value=\"Grayslake\"/>\n                    <state value=\"IL\"/>\n                    <postalCode value=\"60030\"/>\n                </address>\n            </Practitioner>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:cec258d7-a76a-4a1d-bc4c-c656b0a5d6f8\"/>\n        <resource>\n            <Patient xmlns=\"http://hl7.org/fhir\">\n                <id value=\"cec258d7-a76a-4a1d-bc4c-c656b0a5d6f8\"/>\n                <meta>\n                    <profile value=\"http://hl7.org/fhir/us/bser/StructureDefinition/PatientRole\"/>\n                </meta>\n                <identifier>\n                    <type>\n                        <coding>\n                            <system value=\"http://hl7.org/fhir/v2/0203\"/>\n                            <code value=\"MR\"/>\n                            <display value=\"Medical Record Number\"/>\n                        </coding>\n                    </type>\n                    <system value=\"urn:oid:2.16.840.1.113883.4.3.17\"/>\n                    <value value=\"F255-9215-0094\"/>\n                </identifier>\n                <name>\n                    <use value=\"official\"/>\n                    <family value=\"John\"/>\n                    <given value=\"Doe\"/>\n                </name>\n                <telecom>\n                    <system value=\"phone\"/>\n                    <value value=\"(999) 607-2500\"/>\n                </telecom>\n                <gender value=\"male\"/>\n                <birthDate value=\"1950-03-22\"/>\n                <address>\n                    <line value=\"609 Lizeth Streets\"/>\n                    <city value=\"Chicago\"/>\n                    <state value=\"IL\"/>\n                    <postalCode value=\"60609\"/>\n                </address>\n                <communication>\n                    <language>\n                        <coding>\n                            <system value=\"urn:ietf:bcp:47\"/>\n                            <code value=\"en-US\"/>\n                            <display value=\"English (United States)\"/>\n                        </coding>\n                    </language>\n                    <preferred value=\"true\"/>\n                </communication>\n            </Patient>\n        </resource>\n    </entry>\n\n\n    <entry>\n        <fullUrl value=\"urn:uuid:29be9d88-0027-4f02-9b2c-f7a27aaaf10b\"/>\n        <resource>\n            <Observation xmlns=\"http://hl7.org/fhir\">\n                <id value=\"29be9d88-0027-4f02-9b2c-f7a27aaaf10b\"/>\n                <status value=\"final\"/>\n                <code>\n                    <coding>\n                        <system value=\"http://loinc.org\"/>\n                        <code value=\"80913-7\"/>\n                        <display value=\"Highest level of education\"/>\n                    </coding>\n                </code>\n                <subject>\n                    <reference value=\"urn:uuid:cec258d7-a76a-4a1d-bc4c-c656b0a5d6f8\"/>\n                </subject>\n                <valueCodeableConcept>\n                    <coding>\n                        <system value=\"http://hl7.org/fhir/v3/EducationLevel/vs.html\"/>\n                        <code value=\"BD\"/>\n                        <display value=\"College or baccalaureate degree complete\"/>\n                    </coding>\n                </valueCodeableConcept>\n            </Observation>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:22449d51-3d71-49bd-a79a-c1f7557e09ef\"/>\n        <resource>\n            <Observation xmlns=\"http://hl7.org/fhir\">\n                <id value=\"22449d51-3d71-49bd-a79a-c1f7557e09ef\"/>\n                <status value=\"final\"/>\n                <code>\n                    <coding>\n                        <system value=\"http://loinc.org\"/>\n                        <code value=\"74165-2\"/>\n                        <display value=\"History of employment status\"/>\n                    </coding>\n                </code>\n                <subject>\n                    <reference value=\"urn:uuid:cec258d7-a76a-4a1d-bc4c-c656b0a5d6f8\"/>\n                </subject>\n                <valueCodeableConcept>\n                    <coding>\n                        <system value=\"http://hl7.org/fhir/v2-0066\"/>\n                        <code value=\"1\"/>\n                        <display value=\"Full time employed\"/>\n                    </coding>\n                </valueCodeableConcept>\n            </Observation>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:e6d1abc8-595f-41ab-a6dc-13a034d3fac7\"/>\n        <resource>\n            <Organization xmlns=\"http://hl7.org/fhir\">\n                <id value=\"e6d1abc8-595f-41ab-a6dc-13a034d3fac7\"/>\n                <identifier>\n                    <system value=\"urn:oid:2.16.840.1.113883.4.6\"/>\n                    <value value=\"1659603009\"/>\n                </identifier>\n                <type>\n                    <coding>\n                        <system value=\"http://hl7.org/CodeSystem/organization-type\"/>\n                        <code value=\"prov\"/>\n                        <display value=\"Healthcare Provider\"/>\n                    </coding>\n                </type>\n                <name value=\"Alliance Of Chicago Therapeutic Services and Supplies\"/>\n                <telecom>\n                    <system value=\"phone\"/>\n                    <value value=\"(773)-661-4499\"/>\n                </telecom>\n                <address>\n                    <use value=\"work\"/>\n                    <line value=\"2800 W PETERSON AVE\"/>\n                    <city value=\"Chicago\"/>\n                    <state value=\"IL\"/>\n                    <postalCode value=\"60659\"/>\n                    <country value=\"USA\"/>\n                </address>\n            </Organization>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:f5db0002-3a69-472b-9263-be8d977fdaff\"/>\n        <resource>\n            <Organization xmlns=\"http://hl7.org/fhir\">\n                <!-- OrganizationEntity2 -->\n                <id value=\"f5db0002-3a69-472b-9263-be8d977fdaff\"/>\n                <identifier>\n                    <system value=\"urn:oid:2.16.840.1.113883.4.6\"/>\n                    <value value=\"1215372123\"/>\n                </identifier>\n                <type>\n                    <coding>\n                        <system value=\"http://hl7.org/CodeSystem/organization-type\"/>\n                        <code value=\"prov\"/>\n                        <display value=\"Healthcare Provider\"/>\n                    </coding>\n                </type>\n                <name value=\"YMCA of Metropolitan Chicago\"/>\n                <telecom>\n                    <system value=\"phone\"/>\n                    <value value=\"(909) 427-5000\"/>\n                    <use value=\"work\"/>\n                </telecom>\n                <address>\n                    <use value=\"work\"/>\n                    <line value=\"1030 W Van Buren St\"/>\n                    <city value=\"Chicago\"/>\n                    <state value=\"IL\"/>\n                    <postalCode value=\"60607\"/>\n                    <country value=\"USA\"/>\n                </address>\n            </Organization>\n        </resource>\n    </entry>\n    <entry>\n        <fullUrl value=\"urn:uuid:0bdbb1e5-5016-4291-8249-d16d8d07181f\"/>\n        <resource>\n            <!-- Support Bundle Starts Here -->\n            <Bundle xmlns=\"http://hl7.org/fhir\">\n                <!-- DiabetesRequestSupportBundle -->\n                <id value=\"0bdbb1e5-5016-4291-8249-d16d8d07181f\"/>\n                <meta>\n                    <profile\n                        value=\"http://hl7.org/fhir/us/bser/StructureDefinition/DiabetesRequestSupportBundle\"\n                    />\n                </meta>\n                <type value=\"collection\"/>\n                <entry>\n                    <fullUrl value=\"urn:uuid:f08e2abf-30c5-49b0-9ada-105d52204ca6\"/>\n                    <resource>\n                        <Observation xmlns=\"http://hl7.org/fhir\">\n                            <!-- BodyMassIndexObservation1 -->\n                            <id value=\"f08e2abf-30c5-49b0-9ada-105d52204ca6\"/>\n                            <meta>\n                                <profile\n                                    value=\"http://hl7.org/fhir/us/bser/StructureDefinition/BodyMassIndexObservation\"\n                                />\n                            </meta>\n                            <status value=\"final\"/>\n                            <category>\n                                <coding>\n                                    <system value=\"http://hl7.org/fhir/observation-category\"/>\n                                    <code value=\"vital-signs\"/>\n                                    <display value=\"Vital Signs\"/>\n                                </coding>\n                            </category>\n                            <code>\n                                <coding>\n                                    <system value=\"http://loinc.org\"/>\n                                    <code value=\"39156-5\"/>\n                                    <display value=\"Body mass index (BMI) [Ratio]\"/>\n                                </coding>\n                            </code>\n                            <subject>\n                                <reference value=\"urn:uuid:cec258d7-a76a-4a1d-bc4c-c656b0a5d6f8\"/>\n                            </subject>\n                            <effectiveDateTime value=\"2018-12-11\"/>\n                            <valueQuantity>\n                                <value value=\"31.2\"/>\n                                <unit value=\"kg/m2\"/>\n                                <system value=\"http://unitsofmeasure.org\"/>\n                                <code value=\"kg/m2\"/>\n                            </valueQuantity>\n                        </Observation>\n                    </resource>\n                </entry>\n                <entry>\n                    <fullUrl value=\"urn:uuid:6f99e55a-66a7-453f-b78f-e6821dc5e556\"/>\n                    <resource>\n                        <Observation xmlns=\"http://hl7.org/fhir\">\n                            <!-- BodyWeightObservation1 -->\n                            <id value=\"6f99e55a-66a7-453f-b78f-e6821dc5e556\"/>\n                            <meta>\n                                <profile\n                                    value=\"http://hl7.org/fhir/us/bser/StructureDefinition/BodyWeightObservation\"\n                                />\n                            </meta>\n                            <status value=\"final\"/>\n                            <category>\n                                <coding>\n                                    <system value=\"http://hl7.org/fhir/observation-category\"/>\n                                    <code value=\"vital-signs\"/>\n                                    <display value=\"Vital Signs\"/>\n                                </coding>\n                            </category>\n                            <code>\n                                <coding>\n                                    <system value=\"http://loinc.org\"/>\n                                    <code value=\"29463-7\"/>\n                                    <display value=\"Body Weight\"/>\n                                </coding>\n                            </code>\n                            <subject>\n                                <reference value=\"urn:uuid:cec258d7-a76a-4a1d-bc4c-c656b0a5d6f8\"/>\n                            </subject>\n\n                            <effectiveDateTime value=\"2018-12-11\"/>\n                            <valueQuantity>\n                                <value value=\"105\"/>\n                                <unit value=\"kg\"/>\n                                <system value=\"http://unitsofmeasure.org\"/>\n                                <code value=\"kg\"/>\n                            </valueQuantity>\n                        </Observation>\n                    </resource>\n                </entry>\n                <entry>\n                    <fullUrl value=\"urn:uuid:cc841086-4f22-4b92-8ab4-4446fc506ebf\"/>\n                    <resource>\n                        <Observation xmlns=\"http://hl7.org/fhir\">\n                            <!-- HemoglobinA1cObservation1 -->\n                            <id value=\"cc841086-4f22-4b92-8ab4-4446fc506ebf\"/>\n                            <meta>\n                                <profile\n                                    value=\"http://hl7.org/fhir/us/bser/StructureDefinition/A1cObservation\"\n                                />\n                            </meta>\n                            <status value=\"final\"/>\n                            <category>\n                                <coding>\n                                    <system value=\"http://hl7.org/fhir/observation-category\"/>\n                                    <code value=\"vital-signs\"/>\n                                    <display value=\"Vital Signs\"/>\n                                </coding>\n                            </category>\n                            <code>\n                                <coding>\n                                    <system value=\"http://loinc.org\"/>\n                                    <code value=\"4548-4\"/>\n                                    <display value=\"Hemoglobin A1c/​Hemoglobin.total in Blood\"/>\n                                </coding>\n                            </code>\n                            <subject>\n                                <reference value=\"urn:uuid:cec258d7-a76a-4a1d-bc4c-c656b0a5d6f8\"/>\n                            </subject>\n\n                            <effectiveDateTime value=\"2018-12-11\"/>\n                            <valueQuantity>\n                                <value value=\"128\"/>\n                                <unit value=\"mg/dL\"/>\n                                <system value=\"http://unitsofmeasure.org\"/>\n                                <code value=\"mg/dL\"/>\n                            </valueQuantity>\n                        </Observation>\n                    </resource>\n                </entry>\n                <entry>\n                    <fullUrl value=\"urn:uuid:f4faa626-d79e-4b5b-b898-57f25c9dca0b\"/>\n                    <resource>\n\n                        <Observation xmlns=\"http://hl7.org/fhir\">\n                            <!--  BodyHeightObservation1 -->\n                            <id value=\"f4faa626-d79e-4b5b-b898-57f25c9dca0b\"/>\n                            <meta>\n                                <profile\n                                    value=\"http://hl7.org/fhir/us/bser/StructureDefinition/BodyHeightObservation\"\n                                />\n                            </meta>\n                            <status value=\"final\"/>\n                            <category>\n                                <coding>\n                                    <system value=\"http://hl7.org/fhir/observation-category\"/>\n                                    <code value=\"vital-signs\"/>\n                                    <display value=\"Vital Signs\"/>\n                                </coding>\n                            </category>\n                            <code>\n                                <coding>\n                                    <system value=\"http://loinc.org\"/>\n                                    <code value=\"8302-2\"/>\n                                    <display value=\"Body height\"/>\n                                </coding>\n                            </code>\n                            <subject>\n                                <reference value=\"urn:uuid:cec258d7-a76a-4a1d-bc4c-c656b0a5d6f8\"/>\n                            </subject>\n                            <effectiveDateTime value=\"2018-12-11\"/>\n                            <valueQuantity>\n                                <value value=\"182.88\"/>\n                                <unit value=\"cm\"/>\n                                <system value=\"http://unitsofmeasure.org\"/>\n                                <code value=\"cm\"/>\n                            </valueQuantity>\n                        </Observation>\n                    </resource>\n                </entry>\n            </Bundle>\n        </resource>\n    </entry>\n</Bundle>\n"
+						},
+						"url": {
+							"raw": "{{SERVER_URL}}:11001/bser/referral/Bundle/123",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"port": "11001",
+							"path": [
+								"bser",
+								"referral",
+								"Bundle",
+								"123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Feedback",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "redcap_url",
+									"value": "https://redcap-azure-stage.ymca.net",
+									"type": "text"
+								},
+								{
+									"key": "project_url",
+									"value": "https://redcap-azure-stage.ymca.net/redcap_v8.9.3/index.php?pid=46",
+									"type": "text"
+								},
+								{
+									"key": "project_id",
+									"value": "46",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "rrt8@cdc.gov",
+									"type": "text"
+								},
+								{
+									"key": "record",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "redcap_event_name",
+									"value": "create_feedback_arm_1",
+									"type": "text"
+								},
+								{
+									"key": "instrument",
+									"value": "create_feedback",
+									"type": "text"
+								},
+								{
+									"key": "create_feedback_complete",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SERVER_URL}}:11001/bser/referral/feedback",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"port": "11001",
+							"path": [
+								"bser",
+								"referral",
+								"feedback"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trigger subscription",
+			"item": [
+				{
+					"name": "0 -  Create rest-hook  Subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "568b04ea-3324-404e-ad78-f1ac97231819",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"subscription_id\", data.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"resourceType\": \"Subscription\",\r\n \"status\": \"requested\",\r\n \"end\": \"2020-12-20T13:27:56.202+05:30\",\r\n \"reason\": \"Detect New Discharge\",\r\n \r\n \"criteria\": \"Bundle?type=message&_format=json\",\r\n \r\n \"channel\": {\r\n   \"type\":\"rest-hook\" ,\r\n   \"endpoint\": \"http://eip-fhir.experimental.aimsplatform.com/bser/referral\",\r\n   \"payload\": \"application/fhir+json\"\r\n  }\r\n} \r\n\r\n"
+						},
+						"url": {
+							"raw": "{{SERVER_URL}}/Subscription",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"path": [
+								"Subscription"
+							]
+						},
+						"description": "http://hapi.fhir.org/baseDstu2/Subscription/"
+					},
+					"response": []
+				},
+				{
+					"name": "0 - Create Message Subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "568b04ea-3324-404e-ad78-f1ac97231819",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"subscription_id\", data.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"resourceType\": \"Subscription\",\r\n \"status\": \"requested\",\r\n \"end\": \"2020-12-20T13:27:56.202+05:30\",\r\n \"reason\": \"Detect New Discharge\",\r\n \r\n \"criteria\": \"Encounter?status=finished\",\r\n \r\n \"channel\": {\r\n   \"type\":\"message\" ,\r\n   \"endpoint\": \"http://eip-fhir.experimental.aimsplatform.com/bser/referral/$process-message\"\r\n }\r\n} \r\n\r\n"
+						},
+						"url": {
+							"raw": "{{SERVER_URL}}/Subscription",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"path": [
+								"Subscription"
+							]
+						},
+						"description": "http://hapi.fhir.org/baseDstu2/Subscription/"
+					},
+					"response": []
+				},
+				{
+					"name": "Check Subscription status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"resourceType\": \"Subscription\",\r\n \"status\": \"requested\",\r\n \"end\": \"2018-12-20T13:27:56.202+05:30\",\r\n \"reason\": \"Detect New Discharge\",\r\n \r\n \"criteria\": \"Encounter?status=finished\",\r\n \r\n \"channel\": {\r\n   \"type\":\"rest-hook\" ,\r\n   \r\n   \"endpoint\": \"http://eip-fhir.experimental.aimsplatform.com/bser/referral/\",\r\n   \r\n   \"payload\": \"application/fhir+json\"\r\n }\r\n} "
+						},
+						"url": {
+							"raw": "{{SERVER_URL}}/Subscription/{{subscription_id}}",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"path": [
+								"Subscription",
+								"{{subscription_id}}"
+							]
+						},
+						"description": "http://hapi.fhir.org/baseDstu2/Subscription/"
+					},
+					"response": []
+				},
+				{
+					"name": "1. Save a Patient on FHIR Server",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7b086934-389f-41e4-afea-13ccc9060c21",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"patient_id\", data.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\": \"Patient\",\r\n  \"id\": \"2121211\",\r\n  \"meta\": {\r\n    \"versionId\": \"1\",\r\n    \"lastUpdated\": \"2018-07-28T07:09:51.725+00:00\"\r\n  },\r\n  \"text\": {\r\n    \"status\": \"generated\",\r\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><div class=\\\"hapiHeaderText\\\">Jitendra <b>NEGI </b></div><table class=\\\"hapiPropertyTable\\\"><tbody><tr><td>Identifier</td><td>1000101</td></tr><tr><td>Address</td><td><span>Elmstreet17 </span><br/><span>Motown </span></td></tr><tr><td>Date of birth</td><td><span>25 June 1963</span></td></tr></tbody></table></div>\"\r\n  },\r\n  \"identifier\": [\r\n    {\r\n      \"use\": \"usual\",\r\n      \"type\": {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://hl7.org/fhir/v2/0203\",\r\n            \"code\": \"MR\",\r\n            \"display\": \"Medical record number\"\r\n          }\r\n        ]\r\n      },\r\n      \"system\": \"https://www.lumc.nl\",\r\n      \"value\": \"1000101\"\r\n    },\r\n    {\r\n      \"use\": \"official\",\r\n      \"type\": {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://hl7.org/fhir/identifier-type\",\r\n            \"code\": \"PLAC\",\r\n            \"display\": \"Placer Identifier\"\r\n          }\r\n        ]\r\n      },\r\n      \"system\": \"https://www.lumc.nl/identifiers/PatientIdentifier\",\r\n      \"value\": \"PID124\"\r\n    },\r\n    {\r\n      \"use\": \"official\",\r\n      \"type\": {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://hl7.org/fhir/identifier-type\",\r\n            \"code\": \"SB\",\r\n            \"display\": \"Social Beneficiary Identifier\"\r\n          }\r\n        ]\r\n      },\r\n      \"system\": \"http://hl7.org/fhir/sid/us-ssn\",\r\n      \"value\": \"7543071786\"\r\n    },\r\n    {\r\n      \"use\": \"secondary\",\r\n      \"type\": {\r\n        \"coding\": [\r\n          {\r\n            \"system\": \"http://hl7.org/fhir/identifier-type\",\r\n            \"code\": \"SNO\",\r\n            \"display\": \"Serial Number\"\r\n          }\r\n        ]\r\n      },\r\n      \"system\": \"https://www.lumc.nl/identifiers/H2H-ssn\",\r\n      \"value\": \"1786\"\r\n    }\r\n  ],\r\n  \"name\": [\r\n    {\r\n      \"use\": \"usual\",\r\n      \"family\": \"Bunny\",\r\n      \"given\": [\r\n        \"Bugs\"\r\n      ]\r\n    }\r\n  ],\r\n  \"telecom\": [\r\n    {\r\n      \"system\": \"phone\",\r\n      \"value\": \"75925\",\r\n      \"use\": \"home\"\r\n    },\r\n    {\r\n      \"system\": \"email\",\r\n      \"use\": \"home\"\r\n    }\r\n  ],\r\n  \"gender\": \"female\",\r\n  \"birthDate\": \"1963-06-25\",\r\n  \"address\": [\r\n    {\r\n      \"text\": \"PA\",\r\n      \"line\": [\r\n        \"Elmstreet17\"\r\n      ],\r\n      \"city\": \"Motown\",\r\n      \"postalCode\": \"19083\"\r\n    }\r\n  ],\r\n  \"maritalStatus\": {\r\n    \"coding\": [\r\n      {\r\n        \"system\": \"http://hl7.org/fhir/v3/MaritalStatus\",\r\n        \"code\": \"M\",\r\n        \"display\": \"Married\"\r\n      }\r\n    ]\r\n  },\r\n  \"multipleBirthInteger\": 0,\r\n  \"deceasedBoolean\":false,\r\n  \"contact\": [\r\n    {\r\n      \"name\": {\r\n        \"family\": \"Jones\",\r\n        \"given\": [\r\n          \"Sally\"\r\n        ]\r\n      },\r\n      \"telecom\": [\r\n        {\r\n          \"system\": \"phone\",\r\n          \"value\": \"572964\",\r\n          \"use\": \"home\"\r\n        }\r\n      ],\r\n      \"address\": {\r\n        \"line\": [\r\n          \"Elmstreet34\"\r\n        ],\r\n        \"city\": \"Motown\",\r\n        \"postalCode\": \"19083\"\r\n      },\r\n      \"gender\": \"other\"\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{SERVER_URL}}/Patient",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"path": [
+								"Patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.1 Get Patient",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{SERVER_URL}}/Patient/{{patient_id}}",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"path": [
+								"Patient",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. First encounter is registered.",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\": \"Encounter\",\r\n  \"id\": \"111111\",\r\n  \"meta\": {\r\n    \"versionId\": \"1\",\r\n    \"lastUpdated\": \"2018-04-22T20:05:33.543+00:00\"\r\n  },\r\n  \"status\": \"in-progress\",\r\n  \"class\": {\r\n    \"system\": \"http://hl7.org/fhir/encounter-class\",\r\n    \"code\": \"inpatient\",\r\n    \"display\": \"Inpatient\"\r\n  },\r\n  \"subject\": {\r\n    \"reference\": \"Patient/{{patient_id}}\",\r\n    \"display\": \"Bugs Bunny \"\r\n  },\r\n  \"period\": {\r\n    \"start\": \"2000-08-21T11:56:23.000+05:30\"\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "{{SERVER_URL}}/Encounter",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"path": [
+								"Encounter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Patient is discharged",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resourceType\": \"Encounter\",\r\n  \"id\": \"111112\",\r\n  \"meta\": {\r\n    \"versionId\": \"1\",\r\n    \"lastUpdated\": \"2018-04-22T20:05:33.543+00:00\"\r\n  },\r\n  \"status\": \"finished\",\r\n  \"class\": {\r\n    \"system\": \"http://hl7.org/fhir/encounter-class\",\r\n    \"code\": \"inpatient\",\r\n    \"display\": \"Inpatient\"\r\n  },\r\n  \"subject\": {\r\n    \"reference\": \"Patient/{{patient_id}}\",\r\n    \"display\": \"Bugs Bunny \"\r\n  },\r\n  \"period\": {\r\n    \"start\": \"2000-08-21T11:56:23.000+05:30\"\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "{{SERVER_URL}}/Encounter",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"path": [
+								"Encounter"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
