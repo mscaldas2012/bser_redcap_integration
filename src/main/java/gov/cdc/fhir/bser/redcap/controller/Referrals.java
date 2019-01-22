@@ -3,16 +3,14 @@ package gov.cdc.fhir.bser.redcap.controller;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+import gov.cdc.fhir.bser.redcap.model.RedCapFeedbackInstrument;
 import gov.cdc.fhir.bser.redcap.model.RequestReferalInstrument;
 import gov.cdc.fhir.bser.redcap.service.FHIRProxy;
 import gov.cdc.fhir.bser.redcap.service.RedCapProxy;
-import org.hl7.fhir.dstu3.model.*;
+import org.hl7.fhir.dstu3.model.Bundle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.*;
 
 @RestController
 @RequestMapping(value="/referral")
@@ -34,6 +32,13 @@ public class Referrals {
         } else {
             return "Empty Payload";
         }
+    }
+
+    //TODO::RISHI to Add Code here!
+    @PostMapping(value="/feedback", consumes= MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String processFeedback(RedCapFeedbackInstrument body) {
+        System.out.println("body = " + body);
+        return "OK";
     }
 
     //This method parsers either XML or JSON content:
