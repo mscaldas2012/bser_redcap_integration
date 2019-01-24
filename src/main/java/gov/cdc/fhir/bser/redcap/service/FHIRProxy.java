@@ -1,12 +1,19 @@
 package gov.cdc.fhir.bser.redcap.service;
 
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import gov.cdc.fhir.bser.redcap.model.RequestReferalInstrument;
 import org.hl7.fhir.dstu3.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class FHIRProxy {
@@ -14,6 +21,10 @@ public class FHIRProxy {
     public static final String VITAL_SIGN_WEIGHT = "29463-7";
     public static final String VITAL_SIGN_A1C = "4548-4";
     public static final String PRACTITIONER_ROLE_PROFILE = "http://hl7.org/fhir/us/bser/StructureDefinition/ReferralInitiatorPractitionerRole";
+
+
+    @Autowired
+    private TemplateConfiguration config;
 
     public RequestReferalInstrument processReferral(Bundle results) {
         RequestReferalInstrument instrument = new RequestReferalInstrument();
@@ -66,6 +77,12 @@ public class FHIRProxy {
         return instrument;
     }
 
+    public void processFeedback(Map<String, Object> data) throws IOException, TemplateException {
+        Template temp = config.getConfig().getTemplate("feedback.ftlh");
+        Writer out = new OutputStreamWriter(System.out);
+        temp.process(data, out);
+    }
+
     private static String getAddress(Address address) {
         String str = "";
         str = str + (address.getLine()).get(0);
@@ -74,7 +91,6 @@ public class FHIRProxy {
         str = str + "," + address.getPostalCode();
         return str;
     }
-
 
     public static int getAge(Date dateOfBirth) {
 
