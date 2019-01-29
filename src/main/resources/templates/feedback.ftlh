@@ -238,7 +238,7 @@
                 </identifier>
                 <name>
                     <use value="official"/>
-                    <family value=""/>
+                    <family value="${patient_name}"/>
                     <given value="${patient_name}"/>
                 </name>
                 <telecom>
@@ -297,7 +297,7 @@
                             </subject>
                             <effectiveDateTime value="2019-01-11"/>
                             <valueQuantity>
-                                <value value="29.9"/>
+                                <value value="${visit_patient_bmi}"/>
                                 <unit value="kg/m2"/>
                                 <system value="http://unitsofmeasure.org"/>
                                 <code value="kg/m2"/>
@@ -330,7 +330,7 @@
                             </subject>
                             <effectiveDateTime value="2019-01-11"/>
                             <valueQuantity>
-                                <value value="100"/>
+                                <value value="${visit_patient_weight}"/>
                                 <unit value="kg"/>
                                 <system value="http://unitsofmeasure.org"/>
                                 <code value="kg"/>
@@ -363,7 +363,7 @@
                             </subject>
                             <effectiveDateTime value="2019-01-11"/>
                             <valueQuantity>
-                                <value value="123"/>
+                                <value value="${visit_a1c_count}"/>
                                 <unit value="mg/dL"/>
                                 <system value="http://unitsofmeasure.org"/>
                                 <code value="mg/dL"/>
@@ -396,7 +396,7 @@
                             </subject>
                             <effectiveDateTime value="2018-12-11"/>
                             <valueQuantity>
-                                <value value="182.88"/>
+                                <value value="${visit_patient_height}"/>
                                 <unit value="cm"/>
                                 <system value="http://unitsofmeasure.org"/>
                                 <code value="cm"/>

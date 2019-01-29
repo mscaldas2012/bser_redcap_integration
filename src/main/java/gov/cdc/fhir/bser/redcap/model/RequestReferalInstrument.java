@@ -25,10 +25,12 @@ public class RequestReferalInstrument {
     private String referralPractitionerPhone;
     @SerializedName("patient_mr_number")
     private String patientMRNumber;
-    @SerializedName("patient_name")
-    private String patientName;
-    @SerializedName("patient_age")
-    private String patientAge;
+    @SerializedName("patient_first_name")
+    private String patientFirstName;
+    @SerializedName("patient_last_name")
+    private String patientLastName;
+    @SerializedName("patient_dob")
+    private String patientDob;
     @SerializedName("patient_phone")
     private String patientPhone;
     @SerializedName("patient_height")

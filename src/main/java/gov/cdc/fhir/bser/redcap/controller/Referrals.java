@@ -43,8 +43,7 @@ public class Referrals {
     public String processFeedback(RedCapFeedbackInstrument feedback) throws IOException, TemplateException {
         System.out.println("body = " + feedback);
         Map<String,Object> map = redCapProxy.getFeedBackData(feedback);
-        fhirProxy.processFeedback(map);
-        return "OK";
+        return  fhirProxy.processFeedback(map);
     }
 
     //This method parsers either XML or JSON content:

@@ -150,7 +150,7 @@ public class RedCapProxy {
             }
 
         }
-        return (HashMap) use.toMap();
+        return use.toMap();
     }
 
     private String callRedcap(HttpResponse resp, List<NameValuePair> params) {

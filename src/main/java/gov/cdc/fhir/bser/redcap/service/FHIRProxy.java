@@ -7,9 +7,7 @@ import org.hl7.fhir.dstu3.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,9 +38,10 @@ public class FHIRProxy {
             } else if ((ResourceType.Patient).name().equalsIgnoreCase(resource.getResourceType().name())) {
                 Patient patient = (Patient) resource;
                 instrument.setPatientMRNumber(patient.getIdentifierFirstRep().getValue()); //improve to go throu list of indentifiers
-                instrument.setPatientName(patient.getNameFirstRep().getNameAsSingleString());
+                instrument.setPatientFirstName(patient.getNameFirstRep().getGivenAsSingleString());
+                instrument.setPatientLastName(patient.getNameFirstRep().getFamily());
                 instrument.setPatientPhone(patient.getTelecomFirstRep().getValue());
-                instrument.setPatientAge(getAge(patient.getBirthDate()) + "");
+                instrument.setPatientDob(patient.getBirthDate().toString()) ;
             } else if ((ResourceType.PractitionerRole).name().equalsIgnoreCase(resource.getResourceType().name())) {
                 PractitionerRole prole = (PractitionerRole) resource;
                 if (prole.getMeta() != null && prole.getMeta().getProfile() != null && prole.getMeta().getProfile().size() > 0 && PRACTITIONER_ROLE_PROFILE.equalsIgnoreCase(prole.getMeta().getProfile().get(0).getValue())) {
@@ -77,10 +76,23 @@ public class FHIRProxy {
         return instrument;
     }
 
-    public void processFeedback(Map<String, Object> data) throws IOException, TemplateException {
+    public String processFeedback(Map<String, Object> data) throws IOException, TemplateException {
         Template temp = config.getConfig().getTemplate("feedback.ftlh");
-        Writer out = new OutputStreamWriter(System.out);
+        OutputStream os = new OutputStream() {
+            private StringBuilder string = new StringBuilder();
+            @Override
+            public void write(int b) {
+                this.string.append((char) b );
+            }
+
+            //Netbeans IDE automatically overrides this toString()
+            public String toString(){
+                return this.string.toString();
+            }
+        };
+        Writer out = new OutputStreamWriter(os);
         temp.process(data, out);
+        return os.toString();
     }
 
     private static String getAddress(Address address) {
