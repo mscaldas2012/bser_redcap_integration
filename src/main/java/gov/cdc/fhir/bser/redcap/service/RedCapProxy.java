@@ -70,7 +70,9 @@ public class RedCapProxy {
         params.add(new BasicNameValuePair("type", "flat"));
         params.add(new BasicNameValuePair("overwriteBehavior", "normal"));
         params.add(new BasicNameValuePair("forceAutoNumber", "false"));
-        params.add(new BasicNameValuePair("returnContent", "count"));
+//        params.add(new BasicNameValuePair("returnContent", "count"));
+
+
         return params;
     }
 
@@ -81,7 +83,7 @@ public class RedCapProxy {
         List<NameValuePair> params = prepareRedcapParams();
         //params.add(new BasicNameValuePair("data", "[{\"record_id\":\"6\",\"firstname\":\"Spring\",\"lastname\":\"Boot\",\"age\":\"2\"}]"));
         params.add(new BasicNameValuePair("data", "[" + gson.toJson(newRecord) + "]"));
-
+        params.add(new BasicNameValuePair("returnContent", "count"));
         callRedcap(resp, params);
     }
 
@@ -103,9 +105,9 @@ public class RedCapProxy {
         Gson gson = new Gson();
         List<NameValuePair> params = prepareRedcapParams();
         params.add(new BasicNameValuePair("records", feedback.getRecord()));
-        String fields = "feedback_note,patient_a1cobservation,patient_age,patient_height,patient_mr_number,patient_name,patient_phone,patient_weight,record_id,referral_organization_name,referral_organization_type,referral_practitioner_name,referral_practitioner_phone,visit_a1c_count,visit_patient_bmi,visit_patient_height,visit_patient_weight";
+        String fields = "feedback_note,patient_a1cobservation,patient_dob,patient_height,patient_mr_number,patient_first_name,patient_last_name,patient_phone,patient_weight,record_id,referral_organization_name,referral_organization_type,referral_practitioner_name,referral_practitioner_phone,visit_a1c_count,visit_patient_bmi,visit_patient_height,visit_patient_weight";
         params.add(new BasicNameValuePair("fields", fields));
-        String forms =  "bser_referral_request,bser_visit,create_feedback";
+        String forms =  "dpp_referral_request,dpp_visit,create_feedback";
         params.add(new BasicNameValuePair("forms", forms));
         params.add(new BasicNameValuePair("rawOrLabel", "raw"));
         params.add(new BasicNameValuePair("rawOrLabelHeaders", "raw"));
@@ -113,22 +115,17 @@ public class RedCapProxy {
         params.add(new BasicNameValuePair("exportSurveyFields", "false"));
         params.add(new BasicNameValuePair("exportDataAccessGroups", "false"));
         params.add(new BasicNameValuePair("returnFormat", "json"));
+        params.add(new BasicNameValuePair("records", feedback.getRecord()));
+        params.add(new BasicNameValuePair("events", "referral_received_arm_1,visit_8_arm_1,create_feedback_arm_1,"));
+
         String result = callRedcap(resp, params);
-        /**
-         * [
-         *  {"record_id":"44","redcap_event_name":"referral_received_arm_1","referral_organization_name":"Alliance Of Chicago Therapeutic Services and Supplies","referral_organization_type":"Healthcare Provider","referral_practitioner_name":"Dr. Udaya Liyanage","referral_practitioner_phone":"(618) 942-2002","patient_mr_number":"F255-9215-0094","patient_name":"Bradley Beal","patient_age":"68","patient_phone":"(999) 607-2500","patient_height":"182.88 cm","patient_weight":"105 kg","patient_a1cobservation":"128 mg/dL","visit_patient_weight":"","visit_patient_height":"","visit_patient_bmi":"","visit_a1c_count":"","feedback_note":""},
-         *  {"record_id":"44","redcap_event_name":"visit_arm_1","referral_organization_name":"","referral_organization_type":"","referral_practitioner_name":"","referral_practitioner_phone":"","patient_mr_number":"","patient_name":"","patient_age":"","patient_phone":"","patient_height":"","patient_weight":"","patient_a1cobservation":"","visit_patient_weight":"105 kg","visit_patient_height":"182.88 cm","visit_patient_bmi":"[referral_received_arm_1][patient_bmi]","visit_a1c_count":"128 mg/dL","feedback_note":""},
-         *  {"record_id":"44","redcap_event_name":"create_feedback_arm_1","referral_organization_name":"","referral_organization_type":"","referral_practitioner_name":"","referral_practitioner_phone":"","patient_mr_number":"","patient_name":"","patient_age":"","patient_phone":"","patient_height":"","patient_weight":"","patient_a1cobservation":"","visit_patient_weight":"","visit_patient_height":"","visit_patient_bmi":"","visit_a1c_count":"","feedback_note":"This is a Note for the Patient from the YMCA"}
-         * ]
-         */
+
 
         ArrayList array = new Gson().fromJson(result, ArrayList.class);
-        //Map map = getMapfromArray(array);
-        //return Convert.fromJson(jsonObject);
-        return getMapfromArray(array);
+        return getMapfromArray(array, "visit_8_arm_1");
     }
 
-    private Map getMapfromArray(ArrayList list) {
+    private Map getMapfromArray(ArrayList list, String eventName) {
         Map<String, Object> returnMap = new HashMap();
         Gson g = new Gson();
         JSONObject use = new JSONObject();
@@ -139,7 +136,7 @@ public class RedCapProxy {
 
             if(redcapevent.equalsIgnoreCase("referral_received_arm_1")) {
                 use=o;
-            }else if(redcapevent.equalsIgnoreCase("visit_arm_1")) {
+            }else if(redcapevent.equalsIgnoreCase(eventName)) {
                 use.put("visit_patient_bmi", o.get("visit_patient_bmi"));
                 use.put("visit_patient_weight", o.get("visit_patient_weight"));
                 use.put("visit_patient_height", o.get("visit_patient_height"));

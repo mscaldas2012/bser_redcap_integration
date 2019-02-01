@@ -7,3 +7,8 @@ redcap:
   api:
     token: 1B0C7E1F7B2F4E2F7245E500D98D04E3
     url: https://redcap-azure-stage.ymca.net/api/
+
+
+BSER_SENDER:
+  #URL: https://webhook.site/8da3e59c-2e0d-4a97-a487-28be62917c3c
+  URL: http://69.8.221.121:19445

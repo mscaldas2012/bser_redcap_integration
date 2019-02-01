@@ -238,8 +238,8 @@
                 </identifier>
                 <name>
                     <use value="official"/>
-                    <family value="${patient_name}"/>
-                    <given value="${patient_name}"/>
+                    <family value="${patient_first_name}"/>
+                    <given value="${patient_last_name}"/>
                 </name>
                 <telecom>
                     <system value="phone"/>

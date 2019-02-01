@@ -6,6 +6,7 @@ import ca.uhn.fhir.parser.IParser;
 import freemarker.template.TemplateException;
 import gov.cdc.fhir.bser.redcap.model.RedCapFeedbackInstrument;
 import gov.cdc.fhir.bser.redcap.model.RequestReferalInstrument;
+import gov.cdc.fhir.bser.redcap.service.AOCProxy;
 import gov.cdc.fhir.bser.redcap.service.FHIRProxy;
 import gov.cdc.fhir.bser.redcap.service.RedCapProxy;
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -24,6 +25,8 @@ public class Referrals {
     private FHIRProxy fhirProxy;
     @Autowired
     private RedCapProxy redCapProxy;
+    @Autowired
+    private AOCProxy aocProxy;
 
     @PutMapping("Bundle/{bundleId}")
     public String receiveReferral(@PathVariable String bundleId, @RequestBody(required=false) String body) {
@@ -43,7 +46,10 @@ public class Referrals {
     public String processFeedback(RedCapFeedbackInstrument feedback) throws IOException, TemplateException {
         System.out.println("body = " + feedback);
         Map<String,Object> map = redCapProxy.getFeedBackData(feedback);
-        return  fhirProxy.processFeedback(map);
+        String result =  fhirProxy.processFeedback(map);
+        //POST Feedback back to AOC:
+        aocProxy.sendFeedback(result);
+        return result;
     }
 
     //This method parsers either XML or JSON content:

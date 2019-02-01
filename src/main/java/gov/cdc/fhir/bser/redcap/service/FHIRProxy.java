@@ -16,7 +16,7 @@ import java.util.Map;
 @Component
 public class FHIRProxy {
     public static final String VITAL_SIGN_HEIGHT = "8302-2";
-    public static final String VITAL_SIGN_WEIGHT = "29463-7";
+    public static final String VITAL_SIGN_WEIGHT = "3141-9";
     public static final String VITAL_SIGN_A1C = "4548-4";
     public static final String PRACTITIONER_ROLE_PROFILE = "http://hl7.org/fhir/us/bser/StructureDefinition/ReferralInitiatorPractitionerRole";
 
@@ -54,7 +54,7 @@ public class FHIRProxy {
                 for (Bundle.BundleEntryComponent vitalSigns : bundle.getEntry()) {
                     try {
                         Observation vitalSign = (Observation) vitalSigns.getResource();
-                        String value = vitalSign.getValueQuantity().getValue() + " " + vitalSign.getValueQuantity().getUnit();
+                        String value = vitalSign.getValueQuantity().getValue() + "";
                         switch (vitalSign.getCode().getCodingFirstRep().getCode()) {
                             case VITAL_SIGN_WEIGHT:
                                 instrument.setPatientWeight(value);
@@ -93,15 +93,6 @@ public class FHIRProxy {
         Writer out = new OutputStreamWriter(os);
         temp.process(data, out);
         return os.toString();
-    }
-
-    private static String getAddress(Address address) {
-        String str = "";
-        str = str + (address.getLine()).get(0);
-        str = str + "," + address.getCity();
-        str = str + "," + address.getState();
-        str = str + "," + address.getPostalCode();
-        return str;
     }
 
     public static int getAge(Date dateOfBirth) {
