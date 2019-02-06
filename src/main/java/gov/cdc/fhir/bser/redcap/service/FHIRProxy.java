@@ -3,6 +3,8 @@ package gov.cdc.fhir.bser.redcap.service;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import gov.cdc.fhir.bser.redcap.model.RequestReferalInstrument;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hl7.fhir.dstu3.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,7 @@ public class FHIRProxy {
     public static final String VITAL_SIGN_A1C = "4548-4";
     public static final String PRACTITIONER_ROLE_PROFILE = "http://hl7.org/fhir/us/bser/StructureDefinition/ReferralInitiatorPractitionerRole";
 
+    private Log logger = LogFactory.getLog(FHIRProxy.class.getName());
 
     @Autowired
     private TemplateConfiguration config;
@@ -84,7 +87,6 @@ public class FHIRProxy {
             public void write(int b) {
                 this.string.append((char) b );
             }
-
             //Netbeans IDE automatically overrides this toString()
             public String toString(){
                 return this.string.toString();
@@ -92,6 +94,7 @@ public class FHIRProxy {
         };
         Writer out = new OutputStreamWriter(os);
         temp.process(data, out);
+        logger.info("Feedback generated:\n" + os.toString() + "\n-------------------------\n");
         return os.toString();
     }
 

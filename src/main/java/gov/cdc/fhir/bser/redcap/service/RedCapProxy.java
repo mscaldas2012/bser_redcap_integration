@@ -30,15 +30,9 @@ import java.util.Map;
  */
 @Component
 public class RedCapProxy {
-
     Log logger = LogFactory.getLog(RedCapProxy.class.getName());
 
     private final HttpPost post;
-    private final HttpClient client;
-    private final StringBuffer result;
-    private int respCode;
-    private BufferedReader reader;
-    private String line;
 
 
     @Value("${redcap.api.url}")
@@ -54,15 +48,10 @@ public class RedCapProxy {
         post = new HttpPost(_redcapURL);
         post.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
-        result = new StringBuffer();
-        client = HttpClientBuilder.create().build();
-        respCode = -1;
-        reader = null;
-        line = null;
     }
 
     private List<NameValuePair> prepareRedcapParams() {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("token", _token));
         params.add(new BasicNameValuePair("content", "record"));
         params.add(new BasicNameValuePair("format", "json"));
@@ -70,21 +59,18 @@ public class RedCapProxy {
         params.add(new BasicNameValuePair("type", "flat"));
         params.add(new BasicNameValuePair("overwriteBehavior", "normal"));
         params.add(new BasicNameValuePair("forceAutoNumber", "false"));
-//        params.add(new BasicNameValuePair("returnContent", "count"));
-
 
         return params;
     }
 
     public void saveReferral(RequestReferalInstrument newRecord) {
-        HttpResponse resp = null;
         Gson gson = new Gson();
 
         List<NameValuePair> params = prepareRedcapParams();
         //params.add(new BasicNameValuePair("data", "[{\"record_id\":\"6\",\"firstname\":\"Spring\",\"lastname\":\"Boot\",\"age\":\"2\"}]"));
         params.add(new BasicNameValuePair("data", "[" + gson.toJson(newRecord) + "]"));
         params.add(new BasicNameValuePair("returnContent", "count"));
-        callRedcap(resp, params);
+        callRedcap(params);
     }
 
 
@@ -101,13 +87,11 @@ public class RedCapProxy {
             //this is a catch all for all other form saves  in referral and visit form clicks should not process
             return null;
         }
-        HttpResponse resp = null;
-        Gson gson = new Gson();
         List<NameValuePair> params = prepareRedcapParams();
         params.add(new BasicNameValuePair("records", feedback.getRecord()));
         String fields = "feedback_note,patient_a1cobservation,patient_dob,patient_height,patient_mr_number,patient_first_name,patient_last_name,patient_phone,patient_weight,record_id,referral_organization_name,referral_organization_type,referral_practitioner_name,referral_practitioner_phone,visit_a1c_count,visit_patient_bmi,visit_patient_height,visit_patient_weight";
         params.add(new BasicNameValuePair("fields", fields));
-        String forms =  "dpp_referral_request,dpp_visit,create_feedback";
+        String forms =  "dpp_referral_request,dpp_visit,dpp_feedback";
         params.add(new BasicNameValuePair("forms", forms));
         params.add(new BasicNameValuePair("rawOrLabel", "raw"));
         params.add(new BasicNameValuePair("rawOrLabelHeaders", "raw"));
@@ -115,10 +99,9 @@ public class RedCapProxy {
         params.add(new BasicNameValuePair("exportSurveyFields", "false"));
         params.add(new BasicNameValuePair("exportDataAccessGroups", "false"));
         params.add(new BasicNameValuePair("returnFormat", "json"));
-        params.add(new BasicNameValuePair("records", feedback.getRecord()));
         params.add(new BasicNameValuePair("events", "referral_received_arm_1,visit_8_arm_1,create_feedback_arm_1,"));
 
-        String result = callRedcap(resp, params);
+        String result = callRedcap(params);
 
 
         ArrayList array = new Gson().fromJson(result, ArrayList.class);
@@ -150,36 +133,28 @@ public class RedCapProxy {
         return use.toMap();
     }
 
-    private String callRedcap(HttpResponse resp, List<NameValuePair> params) {
+    private String callRedcap(List<NameValuePair> params) {
+        StringBuilder result = new StringBuilder();
+        HttpClient client = HttpClientBuilder.create().build();
+
         try {
             post.setEntity(new UrlEncodedFormEntity(params));
-            resp = client.execute(post);
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+            HttpResponse resp = client.execute(post);
 
-        if (resp != null) {
-            respCode = resp.getStatusLine().getStatusCode();
-
-            try {
-                reader = new BufferedReader(new InputStreamReader(resp.getEntity().getContent()));
-            } catch (final Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (reader != null) {
-            try {
+            if (resp != null) {
+                logger.info("respCode: " + resp.getStatusLine().getStatusCode());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(resp.getEntity().getContent()));
+                String line;
                 while ((line = reader.readLine()) != null) {
                     result.append(line);
                 }
-            } catch (final Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
         }
 
-        logger.info("respCode: " + respCode);
-        logger.info("result: " + result.toString());
+        logger.info("result:\n" + result.toString() + "\n---------------------------\n");
         return result.toString();
     }
 }

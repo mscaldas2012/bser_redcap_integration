@@ -10,5 +10,5 @@ redcap:
 
 
 BSER_SENDER:
-  URL: https://webhook.site/8da3e59c-2e0d-4a97-a487-28be62917c3c
-  #URL: http://69.8.221.121:19445
+  #URL: https://webhook.site/063a021f-efad-4514-af8a-1803f5052f1c
+  URL: http://69.8.221.121:19445
