@@ -37,6 +37,8 @@ public class RequestReferalInstrument {
     private String patientHeight;
     @SerializedName("patient_weight")
     private String patientWeight;
+    @SerializedName("patient_bmi")
+    private String patientBMI;
     @SerializedName("patient_a1cobservation")
     private String patientA1CObservation;
 

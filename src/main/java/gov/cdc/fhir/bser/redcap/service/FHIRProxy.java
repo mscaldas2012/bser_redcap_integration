@@ -18,8 +18,9 @@ import java.util.Map;
 @Component
 public class FHIRProxy {
     public static final String VITAL_SIGN_HEIGHT = "8302-2";
-    public static final String VITAL_SIGN_WEIGHT = "3141-9";
-    public static final String VITAL_SIGN_A1C = "4548-4";
+    public static final String VITAL_SIGN_WEIGHT = "29463-7";
+    public static final String VITAL_SIGN_A1C    = "4548-4";
+    public static final String VITAL_SIGN_BMI    = "39156-5";
     public static final String PRACTITIONER_ROLE_PROFILE = "http://hl7.org/fhir/us/bser/StructureDefinition/ReferralInitiatorPractitionerRole";
 
     private Log logger = LogFactory.getLog(FHIRProxy.class.getName());
@@ -30,14 +31,15 @@ public class FHIRProxy {
     public RequestReferalInstrument processReferral(Bundle results) {
         RequestReferalInstrument instrument = new RequestReferalInstrument();
         List<Bundle.BundleEntryComponent> entries = results.getEntry();
-        instrument.setRecordId(results.getId());
+        //instrument.setRecordId(results.getId());
+        instrument.setRecordId("87");
         for (Bundle.BundleEntryComponent bundleEntryComponent : entries) {
             Resource resource = bundleEntryComponent.getResource();
             if ((ResourceType.MessageHeader).name().equalsIgnoreCase(resource.getResourceType().name())) {
                 MessageHeader mheader = (MessageHeader) resource;
-                Practitioner receiver = (Practitioner) mheader.getReceiver().getResource();
-                instrument.setReferralPractitionerName(receiver.getNameFirstRep().getNameAsSingleString());
-                instrument.setReferralPractitionerPhone(receiver.getTelecomFirstRep().getValue());
+                Practitioner sender = (Practitioner) mheader.getSender().getResource();
+                instrument.setReferralPractitionerName(sender.getNameFirstRep().getNameAsSingleString());
+                instrument.setReferralPractitionerPhone(sender.getTelecomFirstRep().getValue());
             } else if ((ResourceType.Patient).name().equalsIgnoreCase(resource.getResourceType().name())) {
                 Patient patient = (Patient) resource;
                 instrument.setPatientMRNumber(patient.getIdentifierFirstRep().getValue()); //improve to go throu list of indentifiers
@@ -67,6 +69,9 @@ public class FHIRProxy {
                                 break;
                             case VITAL_SIGN_A1C:
                                 instrument.setPatientA1CObservation(value);
+                                break;
+                            case VITAL_SIGN_BMI:
+                                instrument.setPatientBMI(value);
                                 break;
                         }
                     } catch (ClassCastException e) {

@@ -52,7 +52,7 @@ public class RedCapProxyTest {
     public void getFeedbackData() {
         RedCapProxy proxy = new RedCapProxy("https://redcap-azure-stage.ymca.net/api/", "1B0C7E1F7B2F4E2F7245E500D98D04E3");
         RedCapFeedbackInstrument feedbackInstrument = new RedCapFeedbackInstrument();
-        feedbackInstrument.setCreate_feedback_complete("2");
+        feedbackInstrument.setDpp_feedback_complete("2");
         feedbackInstrument.setInstrument("createe_feedback");
         feedbackInstrument.setProject_id("46");
         feedbackInstrument.setProject_url("https://redcap-azure-stage.ymca.net/redcap_v8.9.3/index.php?pid=46");
