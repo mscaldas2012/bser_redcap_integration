@@ -85,6 +85,7 @@ public class RedCapProxy {
         if(!feedback.isFeedBackTrigger()) {
             //as the create feedback form was not completed and clicked save.
             //this is a catch all for all other form saves  in referral and visit form clicks should not process
+            logger.info("Feedback not final.. skipping submission");
             return null;
         }
         List<NameValuePair> params = prepareRedcapParams();
