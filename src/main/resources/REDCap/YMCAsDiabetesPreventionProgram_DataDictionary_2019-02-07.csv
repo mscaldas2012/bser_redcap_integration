@@ -1,0 +1,23 @@
+"Variable / Field Name","Form Name","Section Header","Field Type","Field Label","Choices, Calculations, OR Slider Labels","Field Note","Text Validation Type OR Show Slider Number","Text Validation Min","Text Validation Max",Identifier?,"Branching Logic (Show field only if...)","Required Field?","Custom Alignment","Question Number (surveys only)","Matrix Group Name","Matrix Ranking?","Field Annotation"
+record_id,dpp_referral_request,,text,"Record ID",,,,,,,,,,,,,
+referral_organization_name,dpp_referral_request,,text,"Referring Organization Name",,,,,,,,,,,,," @READONLY"
+referral_organization_type,dpp_referral_request,,text,"Referring Organization Type",,,,,,,,,,,,," @READONLY"
+referral_practitioner_name,dpp_referral_request,,text,"Referring Practitioner Name",,,,,,,,,,,,," @READONLY"
+referral_practitioner_phone,dpp_referral_request,,text,"Referring Practitioner Phone",,,,,,,,,,,,," @READONLY"
+patient_mr_number,dpp_referral_request,"Patient Details",text,"Patient MR Number",,,,,,,,,,,,," @READONLY"
+patient_first_name,dpp_referral_request,,text,"Patient First Name",,,,,,,,,,,,," @READONLY"
+patient_last_name,dpp_referral_request,,text,"Patient Last Name",,,,,,,,,,,,," @READONLY"
+patient_dob,dpp_referral_request,,text,"Patient Date of Birth",,,,,,,,,,,,," @READONLY"
+patient_phone,dpp_referral_request,,text,"Patient Phone",,,,,,,,,,,,," @READONLY"
+patient_height,dpp_referral_request,,text,"Patient Height (in)",,,,,,,,,,,,," @READONLY"
+patient_weight,dpp_referral_request,,text,"Patient Weight (lbs)",,,,,,,,,,,,," @READONLY"
+patient_bmi,dpp_referral_request,,text,"Patient BMI",,,,,,,,,,,,," @READONLY"
+patient_a1cobservation,dpp_referral_request,,text,"Patient A1cObservation",,,,,,,,,,,,," @READONLY"
+visit_patient_weight,dpp_visit,"Visit Form",text,"Patient Weight (kg)",,,,,,,,,,,,," @DEFAULT= ""[referral_received_arm_1][patient_weight]"""
+visit_patient_height,dpp_visit,,text,"Patient Height (cm)",,,,,,,,,,,,," @DEFAULT= ""[referral_received_arm_1][patient_height]"""
+visit_patient_bmi,dpp_visit,,text,"Patient BMI",,,,,,,,,,,,,
+visit_a1c_count,dpp_visit,,text,"A1c Count",,,,,,,,,,,,," @DEFAULT= ""[referral_received_arm_1][patient_a1cobservation]"""
+creating_feedback_for_pati,dpp_feedback,,descriptive,"Creating Feedback for Patient  [referral_received_arm_1][patient_first_name]  [referral_received_arm_1][patient_last_name]. To initiate a feed back to Practitioner [referral_received_arm_1][referral_practitioner_name] please click complete and save.",,,,,,,,,,,,,
+feedback_note,dpp_feedback,,notes,"Feedback Note",,,,,,,,,,,,," @DEFAULT='This is a Note for the Patient from the YMCA'"
+include_attandence,dpp_feedback,,checkbox,"Include Attendance","1, Yes | 2, No",,,,,,,,,,,," @DEFAULT='1'"
+include_most_recent_observ,dpp_feedback,,checkbox,"Include most recent observations","1, Yes | 2, No",,,,,,,,,,,," @DEFAULT='1'"
