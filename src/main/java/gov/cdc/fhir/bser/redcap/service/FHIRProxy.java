@@ -49,11 +49,11 @@ public class FHIRProxy {
                 instrument.setPatientDob(patient.getBirthDate().toString()) ;
             } else if ((ResourceType.PractitionerRole).name().equalsIgnoreCase(resource.getResourceType().name())) {
                 PractitionerRole prole = (PractitionerRole) resource;
-                if (prole.getMeta() != null && prole.getMeta().getProfile() != null && prole.getMeta().getProfile().size() > 0 && PRACTITIONER_ROLE_PROFILE.equalsIgnoreCase(prole.getMeta().getProfile().get(0).getValue())) {
+                //if (prole.getMeta() != null && prole.getMeta().getProfile() != null && prole.getMeta().getProfile().size() > 0 ) { //&& PRACTITIONER_ROLE_PROFILE.equalsIgnoreCase(prole.getMeta().getProfile().get(0).getValue())) {
                     Organization org = (Organization) prole.getOrganization().getResource();
                     instrument.setReferralOrganizationName(org.getName());
                     instrument.setReferralOrganizationType(org.getTypeFirstRep().getCodingFirstRep().getDisplay());
-                }
+                //}
             } else if ((ResourceType.Bundle.name().equalsIgnoreCase(resource.getResourceType().name()))) { //Vital Signs Bundle:
                 Bundle bundle = (Bundle) resource;
                 for (Bundle.BundleEntryComponent vitalSigns : bundle.getEntry()) {
