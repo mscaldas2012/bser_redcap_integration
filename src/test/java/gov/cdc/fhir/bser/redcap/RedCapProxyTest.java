@@ -3,19 +3,11 @@ package gov.cdc.fhir.bser.redcap;
 import gov.cdc.fhir.bser.redcap.model.RedCapFeedbackInstrument;
 import gov.cdc.fhir.bser.redcap.model.RequestReferalInstrument;
 import gov.cdc.fhir.bser.redcap.service.RedCapProxy;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.message.BasicNameValuePair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
